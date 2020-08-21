@@ -1,6 +1,5 @@
 ﻿<%- include('layouts/header'); -%>
 
-
 <div class="jumbotron my-4">
   <h1 class="display-4">Nous retrouver</h1>
   <p class="lead">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores esse nam laboriosam magnam
@@ -14,5 +13,28 @@
     style="height:68px;font-size:33px">Mail</a>
 </div>
 
+<hr>
+
+<div class="row">
+  <% for( let i = 0; i < rssData.length; i++ ) { %>
+
+  <div class="col-sm-4 my-1">
+
+    <div class="card">
+      <img class="card-img-top" src="<%= sentData[i].couverture %> " alt="">
+
+      <div class="card-body">
+        <h5 class="card-title"><%= sentData[i].titre %> </h5>
+        <p class="card-text">
+          <%= sentData[i].chapitre %>
+        </p>
+        <a href="<%= sentData[i].liens %> " class="btn btn-primary">Aller voir !</a>
+      </div>
+    </div>
+  </div>
+
+  <% } %>
+
+</div>
 
 <%- include('layouts/footer'); -%>

@@ -22,6 +22,13 @@ MongoClient.connect(connectionString, {
 
     app.use('/', routes);
 
+    app.use((err, req, res, next) => {
+      console.error(err.stack);
+      res.status(500).render(res.render('error', {
+        title: 'Error'
+      }));
+    });
+
     app.listen(port, () => {
       console.log(`Listening at http://localhost:${port}`)
     })
