@@ -10,31 +10,36 @@ router.get('/', (req, res) => {
   })
 })
 
-router.get('/chapitres', async (req, res) => {
-  var test = await fetch('https://mangadex.org/rss/GUp54sazNTkvCX9dYKtwerM28gEfPmBq/group_id/13463')
-  var str = await test.text()
-  var result = await xml2js.parseStringPromise(str)
-  rssData = result.rss.channel[0].item
-  sentData = []
-  for (let i = 0; i < rssData.length; i++) {
-    item = rssData[i]
-    var [, mangaId] = /https:\/\/mangadex\.org\/title\/(\d+)/gm.exec(item.mangaLink[0])
-    var [, titre, chapitre] = /([A-Za-z ]+) - (.+)/gm.exec(item.title[0])
-    var obj = {
-      titre,
-      chapitre,
-      liens: item.link[0],
-      mangaId,
-      couverture: `https://mangadex.org/images/manga/${mangaId}.jpg`
-    }
-    sentData.push(obj)
+router.get('/sorties', async (req, res) => {
+  try {
+    var rss = await fetch('https://mangadex.org/rss/GUp54sazNTkvCX9dYKtwerM28gEfPmBq/group_id/13463')
+    var str = await rss.text()
+    var result = await xml2js.parseStringPromise(str)
+    rssData = result.rss.channel[0].item
+    sentData = []
+    for (let i = 0; i < rssData.length; i++) {
+      let data = rssData[i]
+      let [, mangaId] = /https:\/\/mangadex\.org\/title\/(\d+)/gm.exec(data.mangaLink[0]) || [, "Il y a une erreur dans ce mangaId"]
+      let [, titre, chapitre] = /([A-Za-z ,\?]+) - (.+)/gm.exec(data.title[0]) || [, "Il y a une erreur dans ce titre", "Il y a une erreur dans ce chapitre"]
+      let obj = {
+        titre,
+        chapitre,
+        liens: data.link[0],
+        mangaId,
+        couverture: `https://mangadex.org/images/manga/${mangaId}.jpg`
+      }
+      sentData.push(obj)
 
+    }
+    res.render('sorties', {
+      title: 'Sorties',
+      sentData
+    })
+  } catch (error) {
+    console.log(error)
+    res.send("😡")
   }
-  res.render('chapitres', {
-    title: 'Chapitres',
-    sentData
-  })
-  // res.send('👌')
+
 })
 
 router.get('/discord', (req, res) => {

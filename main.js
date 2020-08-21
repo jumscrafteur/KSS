@@ -7,7 +7,7 @@ require('dotenv').config()
 const port = process.env.PORT || 3000;
 
 // const connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@Cluster0-rmp3c.mongodb.net/test?retryWrites=true&w=majority`
-const connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dnmds.mongodb.net/<dbname>?retryWrites=true&w=majority`
+const connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dnmds.mongodb.net/${process.env.DB_CLUSTER}?retryWrites=true&w=majority`
 
 MongoClient.connect(connectionString, {
     useUnifiedTopology: true
