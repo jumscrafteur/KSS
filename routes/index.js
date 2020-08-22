@@ -65,6 +65,13 @@ router.get('/sorties', async (req, res, next) => {
 
 })
 
+router.get('/team', async (req, res, next) => {
+  res.render('team', {
+    title: 'Team',
+    sentData
+  })
+})
+
 router.get('/discord', (req, res) => {
   res.redirect('https://discord.gg/XjP3Mxm')
 })
