@@ -67,13 +67,24 @@ router.get('/sorties', async (req, res, next) => {
 
 router.get('/team', async (req, res, next) => {
   res.render('team', {
-    title: 'Team',
-    sentData
+    title: 'Team'
+  })
+})
+
+router.get('/planning', async (req, res, next) => {
+  res.render('planning', {
+    title: 'Planning'
   })
 })
 
 router.get('/discord', (req, res) => {
   res.redirect('https://discord.gg/XjP3Mxm')
+})
+
+router.get('/*', (req, res) => {
+  res.render('error', {
+    title: 'Error'
+  })
 })
 
 
