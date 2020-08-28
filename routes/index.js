@@ -3,11 +3,13 @@ const fetch = require('node-fetch');
 const xml2js = require('xml2js');
 
 var router = express.Router();
+var teamRssLink = "https://mangadex.org/rss/9KDNWuA7z683StEQGB2yqcgMxsnawR4Z/group_id/13463?h=0"
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
-    var rss = await fetch('https://mangadex.org/rss/GUp54sazNTkvCX9dYKtwerM28gEfPmBq/group_id/13463')
+    var rss = await fetch(teamRssLink)
     var str = await rss.text()
+    console.log(str);
     var result = await xml2js.parseStringPromise(str)
     rssData = result.rss.channel[0].item.slice(0, 3)
     sentData = []
@@ -29,6 +31,7 @@ router.get('/', async (req, res) => {
       title: 'Index',
       sentData
     })
+    res.send("👌")
   } catch (e) {
     next(e)
   }
@@ -36,7 +39,7 @@ router.get('/', async (req, res) => {
 
 router.get('/sorties', async (req, res, next) => {
   try {
-    var rss = await fetch('https://mangadex.org/rss/GUp54sazNTkvCX9dYKtwerM28gEfPmBq/group_id/13463')
+    var rss = await fetch(teamRssLink)
     var str = await rss.text()
     var result = await xml2js.parseStringPromise(str)
     rssData = result.rss.channel[0].item
