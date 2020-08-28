@@ -79,3 +79,58 @@
 .show>.btn-mangadex.dropdown-toggle:focus {
   box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5)
 }
+
+.btn-twitter {
+  color: #fff;
+  background-color: #00acee;
+  border-color: #00acee
+}
+
+.btn-twitter:hover {
+  color: #fff;
+  background-color: #00acee;
+  border-color: #008abe
+}
+
+.btn-twitter.focus,
+.btn-twitter:focus {
+  color: #fff;
+  background-color: #00acee;
+  border-color: #008abe;
+  box-shadow: 0 0 0 .2rem #268fff80
+}
+
+.btn-twitter.disabled,
+.btn-twitter:disabled {
+  color: #fff;
+  background-color: #f79421;
+  border-color: #f79421
+}
+
+.btn-twitter:not(:disabled):not(.disabled).active,
+.btn-twitter:not(:disabled):not(.disabled):active,
+.show>.btn-twitter.dropdown-toggle {
+  color: #fff;
+  background-color: #008abe;
+  border-color: #005cbf
+}
+
+.btn-twitter:not(:disabled):not(.disabled).active:focus,
+.btn-twitter:not(:disabled):not(.disabled):active:focus,
+.show>.btn-twitter.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5)
+}
+
+.overDisplay p {
+  transition: opacity 1s ease-out;
+  transition-duration: 1s;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.overDisplay:hover p,
+.overDisplay:active p {
+  opacity: 1;
+  height: auto;
+}
