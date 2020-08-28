@@ -9,7 +9,6 @@ router.get('/', async (req, res, next) => {
   try {
     var rss = await fetch(teamRssLink)
     var str = await rss.text()
-    console.log(str);
     var result = await xml2js.parseStringPromise(str)
     rssData = result.rss.channel[0].item.slice(0, 3)
     sentData = []
@@ -31,7 +30,6 @@ router.get('/', async (req, res, next) => {
       title: 'Index',
       sentData
     })
-    res.send("👌")
   } catch (e) {
     next(e)
   }
