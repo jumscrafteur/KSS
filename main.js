@@ -1,6 +1,7 @@
 ﻿const express = require('express')
 const MongoClient = require('mongodb').MongoClient
 const routes = require('./routes')
+const adminRoutes = require('./routes/admin')
 const app = express()
 const path = require('path')
 require('dotenv').config()
@@ -20,7 +21,9 @@ MongoClient.connect(connectionString, {
     app.set('view engine', 'ejs')
     app.use(express.static('public'))
 
+    app.use('/pm', adminRoutes);
     app.use('/', routes);
+
 
     app.use((err, req, res, next) => {
       console.error(err.stack);
