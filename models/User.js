@@ -11,7 +11,7 @@ const schema = mongoose.Schema({
   },
   level: {
     type: Number,
-    default: 0
+    default: 2
   },
   date: {
     type: Date,
