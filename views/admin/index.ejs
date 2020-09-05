@@ -1,0 +1,50 @@
+﻿<%- include('../layouts/header'); -%>
+<br>
+<h2>Mangas</h2>
+
+<div class="table-responsive">
+  <table class="table table-striped ">
+    <thead>
+      <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Dernier Chapitre</th>
+        <th scope="col">Derniere Mofification</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( let i = 0; i < mangas.length; i++ ) { %>
+      <tr>
+        <th scope="row"><%= mangas[i].name %> </th>
+        <td></td>
+        <td><%= mangas[i].date %> </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<hr>
+
+<h2>Utilisateurs</h2>
+
+<div class="table-responsive">
+  <table class="table table-striped ">
+    <thead>
+      <tr>
+        <th scope="col">Pseudo</th>
+        <th scope="col">Niveau</th>
+        <th scope="col">Creation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( let i = 0; i < users.length; i++ ) { %>
+      <tr>
+        <th scope="row"><%= users[i].pseudo %> </th>
+        <td><%= users[i].level %> </td>
+        <td><%= users[i].date %> </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../layouts/footer'); -%>

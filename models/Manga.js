@@ -1,20 +1,19 @@
 ﻿const mongoose = require("mongoose")
 
 const schema = mongoose.Schema({
-  pseudo: {
+  name: {
     type: String,
     required: true
   },
-  password: {
+  imageUrl: {
     type: String,
     required: true
   },
-  level: {
-    type: Number,
-    default: 2
-  },
+  chapters: [{
+    type: mongoose.ObjectId
+  }]
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model("User", schema)
+module.exports = mongoose.model("Manga", schema)
