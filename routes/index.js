@@ -91,7 +91,13 @@ router.get('/discord', (req, res) => {
 
 router.get('/logIn', async (req, res, next) => {
   res.render('logIn', {
-    title: 'Log In'
+    title: 'Se connecter'
+  })
+})
+
+router.get('/register', async (req, res, next) => {
+  res.render('register', {
+    title: 'S\'inscrire'
   })
 })
 

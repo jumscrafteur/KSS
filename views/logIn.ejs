@@ -1,16 +1,17 @@
 ﻿<%- include('layouts/header'); -%>
 <br>
 <br>
+<h1>Se connecter</h1>
 <form class="mx-5" id="logIn" method="POST" action="./submitLogInForm">
 
   <div class="form-group">
     <label for="exampleInputEmail1">Pseudo</label>
-    <input type="text" class="form-control" id="Pseudo" name="pseudo">
+    <input type="text" class="form-control" id="Pseudo" name="pseudo" required>
   </div>
 
   <div class="form-group">
     <label for="Password">Mot de passe</label>
-    <input type="password" class="form-control" id="password" name="password">
+    <input type="password" class="form-control" id="password" name="password" required>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

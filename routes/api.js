@@ -1,7 +1,13 @@
 ﻿const express = require("express")
-const router = express.Router()
 const bcrypt = require("bcrypt")
+
+const router = express.Router()
 const saltRounds = 10
+
+const {
+  userValidationRules,
+  validate
+} = require('./validator.js')
 
 const User = require("../models/User")
 const Manga = require("../models/Manga")
@@ -27,23 +33,24 @@ router.get("/users/:id", async (req, res, next) => {
   }
 })
 
-router.post("/users", async (req, res) => {
-  bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
-    if (req.body.level) {
-      if (req.cookies.userData) {
-        req.body.level = req.cookies.userData.level >= req.body.level ? req.body.level : req.cookies.userData.level
-      } else {
-        req.body.level = 0
-      }
-    }
-    const user = new User({
-      pseudo: req.body.pseudo,
-      level: req.body.level,
-      password: hash,
+router.post("/users", userValidationRules(), validate, async (req, res) => {
+  const dbuser = await User.findOne({
+    email: req.body.email
+  })
+  if (dbuser) {
+    res.redirect('/register')
+  } else {
+    bcrypt.hash(req.body.password1, saltRounds, async (err, hash) => {
+      const user = new User({
+        email: req.body.email,
+        pseudo: req.body.pseudo,
+        password: hash,
+      })
+      await user.save()
+      res.redirect('/')
     })
-    await user.save()
-    res.send(user)
-  });
+  }
+
 
 })
 
