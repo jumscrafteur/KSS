@@ -64,4 +64,22 @@ if (registerForm) {
       password2.classList.remove("invalid")
     }
   })
+
+  function readURL() {
+    var input = document.getElementById("imgInput")
+    if (input.files && input.files[0]) {
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        console.log(e)
+        document.querySelector('.preview').style.backgroundImage = `url(${e.target.result})`
+      }
+      reader.readAsDataURL(input.files[0])
+    }
+  }
+  document.querySelector('#imgInput').addEventListener('change', function (e) {
+    readURL()
+    document.querySelector('#imgLabel').innerText = document.querySelector('#imgInput').files[0].name
+    document.querySelector('.preview').style.display = "block"
+
+  });
 }

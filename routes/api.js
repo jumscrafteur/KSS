@@ -74,6 +74,7 @@ router.post("/users", upload.single('img'), userValidationRules(), validate, asy
         password: hash,
       })
       await user.save()
+      req.session.userData = user
       res.redirect('/')
     })
   }

@@ -126,6 +126,29 @@ router.get('/discord', (req, res) => {
   res.redirect('https://discord.gg/XjP3Mxm')
 })
 
+
+router.get("/test/:id", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      _id: req.params.id
+    })
+    console.log(user)
+    render({
+      req,
+      res,
+      pageTemplate: "test",
+      title: "S\'inscrire",
+      test: user
+    })
+  } catch (e) {
+    res.status(404)
+    res.send({
+      message: "User doesn't exist!",
+      error: e
+    })
+  }
+})
+
 router.get('/*', (req, res) => {
   render({
     req,

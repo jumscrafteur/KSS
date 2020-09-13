@@ -53,7 +53,8 @@ render = (options = {}) => {
       title = "erreur",
       rssData = [],
       mangas = [],
-      users = []
+      users = [],
+      test = {}
   } = options
 
   return res.render(pageTemplate, {
@@ -61,7 +62,8 @@ render = (options = {}) => {
     userData: req.session ? req.session.userData : null,
     rssData,
     mangas,
-    users
+    users,
+    test
   })
 }
 
