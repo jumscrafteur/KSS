@@ -17,6 +17,10 @@ const schema = mongoose.Schema({
     type: Number,
     default: 2
   },
+  img: {
+    data: Buffer,
+    contentType: String
+  }
 }, {
   timestamps: true
 })

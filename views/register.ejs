@@ -2,7 +2,7 @@
 <br>
 <br>
 <h1>S'inscrire</h1>
-<form class="mx-5" id="register" method="POST" action="./api/users">
+<form class="mx-5" id="register" method="POST" action="./api/users" enctype="multipart/form-data">
 
   <div class="form-group">
     <label for="email">Email</label>
@@ -24,6 +24,7 @@
     <label for="password2">Mot de passe</label>
     <input type="password" class="form-control" id="password2" name="password2" required>
   </div>
+  <input type="file" id="img" name="img" value="" required>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

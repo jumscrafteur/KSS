@@ -2,6 +2,8 @@
 const mongoose = require("mongoose")
 const cookieParser = require('cookie-parser')
 const path = require('path')
+const session = require('express-session');
+// const helmet = require('helmet');
 require('dotenv').config()
 
 const routes = require('./routes')
@@ -23,17 +25,29 @@ mongoose.connect(connectionString, {
 
     app.set("views", path.resolve(__dirname, 'views'))
     app.set('view engine', 'ejs')
+    // app.use(helmet())
     app.use(express.static('public'))
     app.use(express.urlencoded({
       extended: true
     }))
-    app.use(cookieParser());
+
+    app.use(cookieParser())
+    app.set('trust proxy', 1) // trust first proxy
+    app.use(session({
+      secret: 'keyboard cat',
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: true
+      }
+    }))
     app.use(express.json())
-    app.use('/api', apiRoutes);
 
-    app.use('/pm', adminRoutes);
+    app.use('/api', apiRoutes)
 
-    app.use('/', routes);
+    app.use('/pm', adminRoutes)
+
+    app.use('/', routes)
 
 
 

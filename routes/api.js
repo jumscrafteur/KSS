@@ -4,6 +4,29 @@ const bcrypt = require("bcrypt")
 const router = express.Router()
 const saltRounds = 10
 
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+const upload = multer({
+  storage: storage
+});
+
+
+
+
+
+
+
 const {
   userValidationRules,
   validate
@@ -12,7 +35,6 @@ const {
 const User = require("../models/User")
 const Manga = require("../models/Manga")
 
-// Get all users
 router.get("/users", async (req, res) => {
   const users = await User.find()
   res.send(users)
@@ -33,10 +55,11 @@ router.get("/users/:id", async (req, res, next) => {
   }
 })
 
-router.post("/users", userValidationRules(), validate, async (req, res) => {
+router.post("/users", upload.single('img'), userValidationRules(), validate, async (req, res) => {
   const dbuser = await User.findOne({
     email: req.body.email
   })
+  console.log(dbuser)
   if (dbuser) {
     res.redirect('/register')
   } else {
@@ -44,14 +67,16 @@ router.post("/users", userValidationRules(), validate, async (req, res) => {
       const user = new User({
         email: req.body.email,
         pseudo: req.body.pseudo,
+        img: {
+          data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
+          contentType: 'image/png'
+        },
         password: hash,
       })
       await user.save()
       res.redirect('/')
     })
   }
-
-
 })
 
 router.patch("/users/:id", async (req, res) => {

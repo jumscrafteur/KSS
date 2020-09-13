@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="manifest" href="favicon/site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
 </head>
 
 <body>
@@ -49,11 +49,25 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-md-auto">
+        <% if (userData) { %>
+        <li class="nav-item <% if (title == "Se deconnecter") { %> active <% } %>">
+          <a class="nav-link" href="/logOut">Se deconnecter <% if (title == "Se deconnecter") { %><span class="sr-only">
+              (current)
+            </span><% } %></a>
+        </li>
+        <% } else { %>
         <li class="nav-item <% if (title == "S'inscrire") { %> active <% } %>">
           <a class="nav-link" href="/register">S'inscrire <% if (title == "S'inscrire") { %><span class="sr-only">
               (current)
             </span><% } %></a>
         </li>
+        <li class="nav-item <% if (title == "Se connecter") { %> active <% } %>">
+          <a class="nav-link" href="/logIn">Se connecter <% if (title == "Se connecter") { %><span class="sr-only">
+              (current)
+            </span><% } %></a>
+        </li>
+        <% } %>
+
       </ul>
     </div>
   </nav>
