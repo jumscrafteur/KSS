@@ -31,20 +31,71 @@
     <thead>
       <tr>
         <th scope="col">Pseudo</th>
+        <th scope="col">Photo de profil</th>
         <th scope="col">Niveau</th>
         <th scope="col">Creation</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <% for( let i = 0; i < users.length; i++ ) { %>
       <tr>
         <th scope="row"><%= users[i].pseudo %> </th>
-        <td><%= users[i].level %> </td>
-        <td><%= users[i].date %> </td>
+        <td scope="row"><img src="data:image/<%=users[i].img.contentType%>;base64, 
+                     <%=users[i].img.data.toString('base64')%>" class="imagePP rounded"></td>
+        <td scope="row"><%= users[i].level %> </td>
+        <td scope="row"><%= users[i].date %> </td>
+        <td scope="row">
+          <a class="btn btn-warning" href="#" role="button">Editer</a>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#suppPopUp"
+            data-pseudo="<%= users[i].pseudo %>" data-id="<%= users[i]._id %>">Supprimer</button>
+        </td>
       </tr>
       <% } %>
     </tbody>
   </table>
+
+
 </div>
 
+<div class="modal fade" id="suppPopUp" tabindex="-1" aria-labelledby="suppPopUpLabel" aria-hidden="true">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="suppPopUpLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span><br>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <span class="pseudo"></span>
+          <span class="badge badge-secondary id"></span>
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#suppPopUp').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget)
+    let id = button.data('id')
+    let pseudo = button.data('pseudo')
+    let modal = $(this)
+    modal.find('.modal-title').text(`Supprimer  ${pseudo} ?`)
+    modal.find('.modal-body p .pseudo').text(pseudo)
+    modal.find('.modal-body p .id').text(id)
+  })
+</script>
 <%- include('../layouts/footer'); -%>

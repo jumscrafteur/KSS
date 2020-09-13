@@ -149,3 +149,9 @@
   background-position: center;
   background-size: cover;
 }
+
+.imagePP {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
