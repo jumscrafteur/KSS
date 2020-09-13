@@ -32,14 +32,11 @@ mongoose.connect(connectionString, {
     }))
 
     app.use(cookieParser())
-    app.set('trust proxy', 1) // trust first proxy
+    app.set('trust proxy', 1)
     app.use(session({
-      secret: 'keyboard cat',
+      secret: process.env.SESS_PASS,
       resave: false,
-      saveUninitialized: true,
-      cookie: {
-        secure: true
-      }
+      saveUninitialized: true
     }))
     app.use(express.json())
 
