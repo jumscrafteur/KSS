@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt")
 const {
   userValidationRules,
   validate,
-  isAdmin,
 } = require('./validator.js')
 
 const router = express.Router()
@@ -28,6 +27,9 @@ const upload = multer({
 
 const User = require("../models/User")
 const Manga = require("../models/Manga")
+const {
+  isAdmin
+} = require("../helpers/index.js")
 
 router.get("/users", async (req, res) => {
   const users = await User.find()
