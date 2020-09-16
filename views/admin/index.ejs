@@ -76,12 +76,24 @@
           <span class="pseudo"></span>
           <span class="badge badge-secondary id"></span>
         </p>
+        <form method="POST" action="../api/users/delete">
+
+          <div class="form-group">
+            <label for="toDeleteUser" class="col-form-label">Compte a supprimer :</label>
+            <input type="text" class="form-control" id="toDeleteUser" name="toDeleteUser" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="col-form-label">Mot de passe :</label>
+            <input type="password" class="form-control" name="password" id="password">
+          </div>
+        </form>
 
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Supprimer</button>
+        <button type="submit" class="btn btn-danger" id="submitBtn">Supprimer</button>
       </div>
     </div>
   </div>
@@ -93,9 +105,21 @@
     let id = button.data('id')
     let pseudo = button.data('pseudo')
     let modal = $(this)
+
     modal.find('.modal-title').text(`Supprimer  ${pseudo} ?`)
     modal.find('.modal-body p .pseudo').text(pseudo)
+    modal.find('.modal-body form #toDeleteUser').val(id)
     modal.find('.modal-body p .id').text(id)
+
+
+    modal.find('.modal-footer #submitBtn').click(function (e) {
+      e.preventDefault();
+      if (modal.find('.modal-body form #password').val()) {
+        console.log(modal.find('.modal-body form'))
+        modal.find('.modal-body form').submit()
+      }
+
+    });
   })
 </script>
 <%- include('../layouts/footer'); -%>

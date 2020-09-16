@@ -1,9 +1,7 @@
 ﻿const fetch = require('node-fetch')
 const xml2js = require('xml2js')
 
-var teamRssLink = "https://mangadex.org/rss/9KDNWuA7z683StEQGB2yqcgMxsnawR4Z/group_id/13463?h=0"
-
-getRssFeed = async (options = {}) => {
+const getRssFeed = async (options = {}) => {
   let {
     dataUrl = "https://mangadex.org/rss/9KDNWuA7z683StEQGB2yqcgMxsnawR4Z/group_id/13463?h=0",
       slice = false,
@@ -33,7 +31,7 @@ getRssFeed = async (options = {}) => {
   return sentData
 }
 
-getUserData = async (options = {}) => {
+const getUserData = async (options = {}) => {
   let {
     req = {}
   } = options
@@ -45,7 +43,7 @@ getUserData = async (options = {}) => {
   }
 }
 
-render = (options = {}) => {
+const render = (options = {}) => {
   let {
     req = {},
       res = {},
@@ -67,8 +65,21 @@ render = (options = {}) => {
   })
 }
 
+const isAdmin = (req, res, next) => {
+  if (!req.session.userData || req.session.userData.level != 0) {
+    res.render('error', {
+      title: 'erreur',
+      userData: req.session ? req.session.userData : null,
+    })
+
+  } else {
+    next()
+  }
+}
+
 module.exports = {
   getRssFeed,
   getUserData,
-  render
+  render,
+  isAdmin
 }

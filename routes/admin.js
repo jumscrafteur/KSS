@@ -2,25 +2,15 @@
 const moment = require('moment'); // require
 const router = express.Router();
 const {
-  getRssFeed,
-  getUserData,
-  render
+  render,
+  isAdmin
 } = require("../helpers")
+
 const User = require("../models/User")
 const Manga = require("../models/Manga")
 moment.locale('fr');
 
-router.use(async (req, res, next) => {
-  user = await getUserData({
-    req
-  })
-  if (!(user || user != null)) {
-    res.redirect('/')
-  } else {
-    if (user.level == 0) next()
-    else res.redirect('/')
-  }
-});
+router.use(isAdmin);
 
 router.get("/", async (req, res, next) => {
 

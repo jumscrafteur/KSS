@@ -1,5 +1,10 @@
 ﻿const express = require("express")
 const bcrypt = require("bcrypt")
+const {
+  userValidationRules,
+  validate,
+  isAdmin,
+} = require('./validator.js')
 
 const router = express.Router()
 const saltRounds = 10
@@ -16,21 +21,10 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + '-' + Date.now())
   }
 });
-
 const upload = multer({
   storage: storage
 });
 
-
-
-
-
-
-
-const {
-  userValidationRules,
-  validate
-} = require('./validator.js')
 
 const User = require("../models/User")
 const Manga = require("../models/Manga")
@@ -105,12 +99,20 @@ router.patch("/users/:id", async (req, res) => {
   }
 })
 
-router.delete("/users/:id", async (req, res) => {
+router.post("/users/delete", isAdmin, async (req, res) => {
   try {
-    await User.deleteOne({
-      _id: req.params.id
+    const dbUser = await User.findOne({
+      email: req.session.userData.email
     })
-    res.status(204).send()
+
+    bcrypt.compare(req.body.password, dbUser.password, async (err, result) => {
+      if (result) {
+        await User.deleteOne({
+          _id: req.body.toDeleteUser
+        })
+      }
+      res.redirect("/pm")
+    });
   } catch (e) {
     res.status(404)
     res.send({
@@ -118,6 +120,24 @@ router.delete("/users/:id", async (req, res) => {
       error: e
     })
   }
+  // console.log(req.body, req.session.userData)
+  // res.send(req.body)
+})
+
+router.delete("/users", isAdmin, async (req, res) => {
+  console.log(req.body)
+  // try {
+  //   await User.deleteOne({
+  //     _id: req.params.id
+  //   })
+  //   res.status(204).send()
+  // } catch (e) {
+  //   res.status(404)
+  //   res.send({
+  //     message: "User doesn't exist!",
+  //     error: e
+  //   })
+  // }
 })
 
 router.get("/mangas", async (req, res) => {
@@ -176,7 +196,7 @@ router.patch("/mangas/:id", async (req, res) => {
   }
 })
 
-router.delete("/mangas/:id", async (req, res) => {
+router.delete("/mangas/:id", isAdmin, async (req, res) => {
   try {
     await Manga.deleteOne({
       _id: req.params.id
