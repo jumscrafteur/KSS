@@ -46,7 +46,7 @@
         <td scope="row"><%= users[i].level %> </td>
         <td scope="row"><%= users[i].date %> </td>
         <td scope="row">
-          <a class="btn btn-warning" href="#" role="button">Editer</a>
+          <a class="btn btn-warning" href="/pm/users/edit/<%= users[i]._id %>" role="button">Editer</a>
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#suppPopUp"
             data-pseudo="<%= users[i].pseudo %>" data-id="<%= users[i]._id %>">Supprimer</button>
         </td>

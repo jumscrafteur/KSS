@@ -1,5 +1,6 @@
 ﻿const express = require("express")
 const bcrypt = require("bcrypt")
+const moment = require('moment')
 const {
   userValidationRules,
   validate,
@@ -28,7 +29,8 @@ const upload = multer({
 const User = require("../models/User")
 const Manga = require("../models/Manga")
 const {
-  isAdmin
+  isAdmin,
+  render
 } = require("../helpers/index.js")
 
 router.get("/users", async (req, res) => {
@@ -76,22 +78,22 @@ router.post("/users", upload.single('img'), userValidationRules(), validate, asy
   }
 })
 
-router.patch("/users/:id", async (req, res) => {
+
+router.post("/users/edit", isAdmin, upload.single('img'), async (req, res) => {
   try {
     const user = await User.findOne({
-      _id: req.params.id
+      _id: req.body.id
     })
 
-    if (req.body.pseudo) {
-      user.pseudo = req.body.pseudo
-    }
+    user.level = req.body.level || user.level
+    user.email = req.body.email || user.email
+    user.pseudo = req.body.pseudo || user.pseudo
+    user.img.data = fs.readFileSync(path.join('./uploads/' + req.file.filename)) || user.img.data
 
-    if (req.body.password) {
-      user.password = req.body.password
-    }
 
     await user.save()
-    res.send(user)
+    res.redirect("/pm")
+    // res.send(fs.readFileSync(path.join('./uploads/' + req.file.filename)))
   } catch (e) {
     res.status(404)
     res.send({
@@ -100,6 +102,31 @@ router.patch("/users/:id", async (req, res) => {
     })
   }
 })
+
+// router.patch("/users/:id", async (req, res) => {
+//   try {
+//     const user = await User.findOne({
+//       _id: req.params.id
+//     })
+
+//     if (req.body.pseudo) {
+//       user.pseudo = req.body.pseudo
+//     }
+
+//     if (req.body.password) {
+//       user.password = req.body.password
+//     }
+
+//     await user.save()
+//     res.send(user)
+//   } catch (e) {
+//     res.status(404)
+//     res.send({
+//       message: "User doesn't exist!",
+//       error: e
+//     })
+//   }
+// })
 
 router.post("/users/delete", isAdmin, async (req, res) => {
   try {
@@ -126,91 +153,91 @@ router.post("/users/delete", isAdmin, async (req, res) => {
   // res.send(req.body)
 })
 
-router.delete("/users", isAdmin, async (req, res) => {
-  console.log(req.body)
-  // try {
-  //   await User.deleteOne({
-  //     _id: req.params.id
-  //   })
-  //   res.status(204).send()
-  // } catch (e) {
-  //   res.status(404)
-  //   res.send({
-  //     message: "User doesn't exist!",
-  //     error: e
-  //   })
-  // }
-})
+// router.delete("/users", isAdmin, async (req, res) => {
+//   console.log(req.body)
+//   try {
+//     await User.deleteOne({
+//       _id: req.params.id
+//     })
+//     res.status(204).send()
+//   } catch (e) {
+//     res.status(404)
+//     res.send({
+//       message: "User doesn't exist!",
+//       error: e
+//     })
+//   }
+// })
 
-router.get("/mangas", async (req, res) => {
-  const mangas = await Manga.find()
-  res.send(mangas)
-})
+// router.get("/mangas", async (req, res) => {
+//   const mangas = await Manga.find()
+//   res.send(mangas)
+// })
 
-router.get("/mangas/:id", async (req, res, next) => {
-  try {
-    const manga = await Manga.findOne({
-      _id: req.params.id
-    })
-    res.send(manga)
-  } catch (e) {
-    res.status(404)
-    res.send({
-      message: "Manga doesn't exist!",
-      error: e
-    })
-  }
-})
+// router.get("/mangas/:id", async (req, res, next) => {
+//   try {
+//     const manga = await Manga.findOne({
+//       _id: req.params.id
+//     })
+//     res.send(manga)
+//   } catch (e) {
+//     res.status(404)
+//     res.send({
+//       message: "Manga doesn't exist!",
+//       error: e
+//     })
+//   }
+// })
 
-router.post("/mangas", async (req, res) => {
-  const manga = new Manga({
-    name: req.body.name,
-    imageUrl: req.body.imageUrl,
-    chapters: []
-  })
-  await manga.save()
-  res.send(manga)
+// router.post("/mangas", async (req, res) => {
+//   const manga = new Manga({
+//     name: req.body.name,
+//     imageUrl: req.body.imageUrl,
+//     chapters: []
+//   })
+//   await manga.save()
+//   res.send(manga)
 
-})
+// })
 
-router.patch("/mangas/:id", async (req, res) => {
-  try {
-    const manga = await Manga.findOne({
-      _id: req.params.id
-    })
+// router.patch("/mangas/:id", async (req, res) => {
+//   try {
+//     const manga = await Manga.findOne({
+//       _id: req.params.id
+//     })
 
-    if (req.body.name) {
-      manga.name = req.body.name
-    }
+//     if (req.body.name) {
+//       manga.name = req.body.name
+//     }
 
-    if (req.body.imageUrl) {
-      manga.imageUrl = req.body.imageUrl
-    }
+//     if (req.body.imageUrl) {
+//       manga.imageUrl = req.body.imageUrl
+//     }
 
-    await manga.save()
-    res.send(manga)
-  } catch (e) {
-    res.status(404)
-    res.send({
-      message: "Manga doesn't exist!",
-      error: e
-    })
-  }
-})
+//     await manga.save()
+//     res.send(manga)
+//   } catch (e) {
+//     res.status(404)
+//     res.send({
+//       message: "Manga doesn't exist!",
+//       error: e
+//     })
+//   }
+// })
 
-router.delete("/mangas/:id", isAdmin, async (req, res) => {
-  try {
-    await Manga.deleteOne({
-      _id: req.params.id
-    })
-    res.status(204).send()
-  } catch (e) {
-    res.status(404)
-    res.send({
-      message: "Manga doesn't exist!",
-      error: e
-    })
-  }
-})
+// router.delete("/mangas/:id", isAdmin, async (req, res) => {
+//   try {
+//     await Manga.deleteOne({
+//       _id: req.params.id
+//     })
+//     res.status(204).send()
+//   } catch (e) {
+//     res.status(404)
+//     res.send({
+//       message: "Manga doesn't exist!",
+//       error: e
+//     })
+//   }
+// })
 
 module.exports = router

@@ -59,12 +59,20 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-md-auto">
-        <% if (userData) { %>
+        <% if (userData != undefined) { %>
         <li class="nav-item <% if (title == "Se deconnecter") { %> active <% } %>">
           <a class="nav-link" href="/logOut">Se deconnecter <% if (title == "Se deconnecter") { %><span class="sr-only">
               (current)
             </span><% } %></a>
         </li>
+        <% if (userData.level == 0) { %>
+        <li class="nav-item <% if (title == "Admin Pannel") { %> active <% } %>">
+          <a class="btn btn-info" href="/pm">Admin <% if (title == "Admin Pannel") { %><span class="sr-only">
+              (current)
+            </span><% } %></a>
+
+        </li>
+        <% } %>
         <% } else { %>
         <li class="nav-item <% if (title == "S'inscrire") { %> active <% } %>">
           <a class="nav-link" href="/register">S'inscrire <% if (title == "S'inscrire") { %><span class="sr-only">

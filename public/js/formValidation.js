@@ -1,22 +1,14 @@
 ﻿const logInForm = document.querySelector("#logIn")
 const registerForm = document.querySelector("#register")
+const editForm = document.querySelector("#edit")
 const email = document.querySelector("#email")
 const pseudo = document.querySelector("#pseudo")
 const password1 = document.querySelector("#password1")
 const password2 = document.querySelector("#password2")
 
-if (logInForm)
-  logInForm.addEventListener("submit", (e) => {
-
-    let password = e.target[1].value
-    // if (!(password.match(/[0-9]/g) && password.match(/[a-z]/g) && password.length >= 10)) {
-    //   e.preventDefault()
-    // }
-    let pseudo = e.target[0].value
-    // if (!(pseudo != null && pseudo.length > 0)) {
-    //   e.preventDefault()
-    // }
-  })
+// if (logInForm)
+//   logInForm.addEventListener("submit", (e) => {
+//   })
 
 if (registerForm) {
   registerForm.addEventListener("submit", (e) => {
@@ -70,7 +62,25 @@ if (registerForm) {
     if (input.files && input.files[0]) {
       var reader = new FileReader()
       reader.onload = function (e) {
-        console.log(e)
+        document.querySelector('.preview').style.backgroundImage = `url(${e.target.result})`
+      }
+      reader.readAsDataURL(input.files[0])
+    }
+  }
+  document.querySelector('#imgInput').addEventListener('change', function (e) {
+    readURL()
+    document.querySelector('#imgLabel').innerText = document.querySelector('#imgInput').files[0].name
+    document.querySelector('.preview').style.display = "block"
+
+  });
+}
+
+if (editForm) {
+  function readURL() {
+    var input = document.getElementById("imgInput")
+    if (input.files && input.files[0]) {
+      var reader = new FileReader()
+      reader.onload = function (e) {
         document.querySelector('.preview').style.backgroundImage = `url(${e.target.result})`
       }
       reader.readAsDataURL(input.files[0])

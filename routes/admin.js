@@ -1,6 +1,6 @@
 ﻿const express = require('express')
-const moment = require('moment'); // require
-const router = express.Router();
+const moment = require('moment')
+const router = express.Router()
 const {
   render,
   isAdmin
@@ -45,4 +45,19 @@ router.get("/", async (req, res, next) => {
   })
 })
 
+router.get("/users/edit/:id", async (req, res) => {
+  const user = await User.findOne({
+    _id: req.params.id
+  })
+
+  date = moment(user.createdAt).fromNow()
+  user.date = date
+  render({
+    req,
+    res,
+    pageTemplate: "admin/edit",
+    title: user.pseudo,
+    toEditUser: user,
+  })
+})
 module.exports = router;

@@ -37,9 +37,8 @@ const getUserData = async (options = {}) => {
   } = options
   if (req.session.userData) {
     return req.session.userData
-
   } else {
-    return null
+    return "false"
   }
 }
 
@@ -52,15 +51,17 @@ const render = (options = {}) => {
       rssData = [],
       mangas = [],
       users = [],
+      toEditUser = {},
       test = {}
   } = options
 
   return res.render(pageTemplate, {
     title,
-    userData: req.session ? req.session.userData : null,
+    userData: req.session ? req.session.userData : undefined,
     rssData,
     mangas,
     users,
+    toEditUser,
     test
   })
 }
